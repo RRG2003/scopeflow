@@ -1,5 +1,7 @@
 # ScopeFlow
 
+**Live demo:** https://rrg2003.github.io/scopeflow/ (static GitHub Pages build — payment link is a placeholder until you set `NEXT_PUBLIC_STRIPE_PAYMENT_LINK` and rebuild; see "How to take money" below)
+
 **Create interactive 3-tier proposals and signable client contracts in 2 minutes. No signup, private, free with a watermark.**
 
 ScopeFlow is a local-first, browser-only proposal & contract studio for
@@ -60,6 +62,20 @@ vercel --prod --yes
 ```
 
 Then add `NEXT_PUBLIC_STRIPE_PAYMENT_LINK` (and optionally `NEXT_PUBLIC_PRO_UNLOCK_CODE`) under Project Settings → Environment Variables, and redeploy.
+
+### GitHub Pages (what the live demo above uses — fully static, zero cost)
+
+The app has no server-only features, so it can be exported as static HTML:
+
+```bash
+# temporarily add to next.config.js:
+#   output: "export", basePath: "/<repo-name>", assetPrefix: "/<repo-name>/", trailingSlash: true, images: { unoptimized: true }
+npm run build        # outputs to ./out
+touch out/.nojekyll
+# push ./out to a gh-pages branch, then enable Pages in repo settings (branch: gh-pages, path: /)
+```
+
+Remember to set `NEXT_PUBLIC_STRIPE_PAYMENT_LINK` in your shell env (or a `.env.production.local`) **before** running `npm run build` for this path, since static export inlines `NEXT_PUBLIC_*` vars at build time — there's no server to read them at runtime.
 
 ### Netlify
 
